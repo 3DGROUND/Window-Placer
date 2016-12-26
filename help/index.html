@@ -1,0 +1,1026 @@
+<!doctype html>
+<!--
+
+Universal Help 
+Author: MastaMan
+
+Tags:
+h1, ul, li, blockquote, pre
+
+-->
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script>
+	/*------------------------------------*/
+	
+	var scriptName = 'Window Placer'
+	var scriptVer = '1.1.0'
+	var purchaseKeyUrl = 'https://www.oplata.info/asp2/pay_wm.asp?id_d=2246311'
+	var donateUrl = ''
+	var downloadUrl = 'https://github.com/3DGROUND/Window-Placer/archive/master.zip'
+	
+	var helpVer = '1.1.0' 
+	var author = 'MastaMan'
+	var defaultLang = 'en' 
+		
+	/*------------------------------------*/
+	
+	console.log(document.innerHTML)
+	var scriptFullname = scriptName + "  v." + scriptVer
+	var year = new Date().getFullYear()
+	var currentLang = defaultLang
+	
+	function echo(v)
+	{
+		document.write(v)
+	}
+	
+	
+	function template(a, b)
+	{				
+		document.body.innerHTML = document.body.innerHTML.replace(new RegExp(a, 'g'), b);		
+	}
+		
+	function toggleMenu() 
+	{
+		 var x = document.getElementById('menu-icon')
+		 x.classList.toggle("menu-toggle")
+		 x.classList.toggle("anim")
+		 
+		 var m = document.getElementById('menu')
+		 m.classList.toggle('menu-toggle')
+		 
+		 var b = document.getElementById('content')
+		 b.classList.toggle('content-toggle')
+		 
+		 var t = document.getElementById('body')
+		 t.classList.toggle('body-toggle')		 
+	}
+	
+		
+	function setActive()
+	{
+		var a = document.getElementsByClassName("nav-active")
+		for(var i = 0; i < a.length; i++)  
+		{
+			a[i].className = "nav"	
+		}
+		
+		var a = document.querySelectorAll("#menu a")
+
+		for(var i = 0; i < a.length; i++)  
+		{
+			h = a[i].getAttribute("href")
+			x = window.location.hash
+
+			if(h == x)
+			{		
+				a[i].className = "nav-active"
+			}		
+		}				
+	}
+	
+	function startBind()
+	{		
+		var a = document.querySelectorAll("a")
+
+		for(var i = 0; i < a.length; i++)  
+		{
+			a[i].onmouseout = function () {setActive()}
+		}
+	}
+	
+	
+	function parseLang(a)
+	{
+		o = a.split('_')
+		orig = o[0].replace('#', '')
+		u = orig + '_'	
+
+		return u
+	}
+	
+	
+	function setLangUrl(a)
+	{
+		h = a.getAttribute("href")				
+
+		h1 = parseLang(h) + currentLang
+		h2 = parseLang(h) + defaultLang
+		
+		e = document.getElementById(h1)	
+		
+		a.href = e ? ('#' + h1) : ('#' + h2)
+	}
+	
+	function init()
+	{	
+		var a = document.getElementsByClassName('item')
+		
+		for(var i = 0; i < a.length; i++)  
+		{
+			itemLang = a[i].getAttribute("lang")
+			if(!itemLang) {itemLang = defaultLang}
+			
+			u = parseLang(a[i].id) + itemLang
+			a[i].id = u
+			
+			if((a[i].children[0]).className != 'title')
+			{			
+				title = a[i].getAttribute("title")
+				elTitle = document.createElement("header")				
+				elTitle.innerHTML = title
+				elTitle.className = "title"
+				elPadding = document.createElement("dummy")				
+				a[i].insertBefore(elPadding, a[i].firstChild)						
+				a[i].insertBefore(elTitle, a[i].firstChild)	
+			}
+		}
+		
+		var a = document.querySelectorAll("#menu a")
+
+		for(var i = 0; i < a.length; i++)  
+		{			
+			setLangUrl(a[i], currentLang)					
+		}
+	}
+	
+	function setActiveCurrentLang() {
+		var a = document.getElementById('lang').childNodes	
+		
+		for(var i = 0; i < a.length; i++)  
+		{			
+			a[i].className = ''
+			if(a[i].getAttribute('lang') == currentLang) a[i].className = 'active'
+		}
+	}
+	
+	function setLang(lang, el)
+	{		
+		currentLang = lang
+		
+		setActiveCurrentLang()
+					
+		init()
+			
+		u1 = parseLang(window.location.hash) + currentLang
+		u2 = parseLang(window.location.hash) + defaultLang
+		
+		var e = document.getElementById(u1)
+
+		location.replace(e ? '#' + u1 : '#' + u2);
+	}
+	
+	function getLangByUrl() {
+		var a = window.location.hash
+		var o = a.split('_')
+		if(o[1]) {
+			currentLang = o[1].toLowerCase()
+		} 
+	}
+		
+	document.addEventListener("DOMContentLoaded", function(){
+			//setTimeout("toggleMenu()", 50)
+		
+		template('{{name}}', scriptName);	
+		template('{{ver}}', scriptVer);	
+		template('{{purchase}}', purchaseKeyUrl);	
+		template('{{donate}}', donateUrl);	
+		template('{{download}}', downloadUrl);
+		template('{{helpver}}', helpVer);	
+		template('{{author}}', author);	
+		template('{{fullname}}', scriptFullname);	
+		template('{{year}}', year);			
+			
+		setTimeout("init()", 250)
+		setTimeout("getLangByUrl()", 200)
+		setTimeout("setActiveCurrentLang()", 240)			
+		setTimeout("startBind()", 280)
+		setTimeout(function(){
+		var el = document.getElementById(window.location.hash.replace('#', ''))
+		if(!el) {
+			location.replace("#home" + '_' + defaultLang)
+		}
+		else
+		{
+			location.replace(window.location.hash)
+		}
+				
+	}, 300)
+	});
+
+</script>
+		<style>
+.item {
+	padding: 0px;
+	display: none; /* HIDE ALL CONTENT *//*display: block;*/
+}
+
+body {
+	color: #24292D;
+	font-family: Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif;
+	font-size: 1.0em;
+	line-height: 1.5em;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	overflow-x: hidden;
+}
+
+img {
+	border: 0.5em solid #FFF;
+	margin: 0.5em 0;
+	box-shadow: rgba(0,0,0,0.2) 0 0 3px;
+	word-break: break-all;
+	word-spacing: normal;
+	word-wrap: break-word;
+	max-width: 95%;
+	height: auto !important;
+	display: block;
+}
+
+html {
+	background: #EEEEEE;
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	background-position: center;
+	background-attachment: fixed;
+}
+
+h1, h2, h3 {
+	color: #3598DC;
+	margin: 0;
+	padding: 0.7em 0 0.7em 0;
+	font-size: 1.8em;
+	font-weight: normal;
+}
+
+h3 {
+	font-size: 1.4em;
+}
+
+header {
+	background: #24292D;
+	position: fixed;
+	width: 100%;
+	height: 1em;
+	top: 0;
+	left: 0;
+	padding: 0.7em 0 0.7em 2.3em;
+	font-size: 2em;
+	color: #9C9C9C;
+}
+
+dummy {
+	display: block;
+	content: '';
+	height: 6em;
+}
+
+a:link, a:visited {
+	color: #3598DC;
+	text-decoration: underline;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+a:active {
+	text-decoration: underline;
+}
+
+.menu-icon {
+	padding: 1.2em;
+	text-align: right;
+	position: fixed;
+	top: 0;
+	left: 13em;
+	margin-left: 0;
+	z-index: 1000;
+	transition: 0.2s all linear;
+	transition-delay: 0.1s;
+	cursor: pointer;
+	height: 100%;
+	width: 100%;
+}
+
+.
+
+.menu-icon:hover div {
+	background-color: #3598DC !important;
+}
+
+.menu-toggle {
+	transform: translateX(-13em) !important;
+}
+
+.menu-toggle div {
+	background-color: #9C9C9C !important;
+}
+
+.anim .bar1 {
+	transform: translate(-0px, 0.65em) rotate(-45deg);
+}
+
+.anim .bar2 {
+	opacity: 0;
+}
+
+.anim .bar3 {
+	transform: translate(-0px, -0.65em) rotate(45deg);
+}
+
+.menu-icon div {
+	width: 2em;
+	height: 0.31em;
+	background-color: #3598DC;
+	color: #3598DC;
+	margin: 0.33em 0;
+	transition: 0.2s all linear;
+}
+
+.menu-toggle a, .menu-toggle #lang {
+	opacity: 0;
+	transition: 0.1s opacity linear;
+}
+
+.menu-icon.menu-toggle {
+	width: 100% !important;
+	height: 2.4em;
+}
+
+#menu {
+	transition: 0.3s all linear;
+	transition-delay: 0.1s;
+	left: 0px;
+	top: 0px;
+	position: fixed;
+	min-width: 11.5em;
+	width: 11.5em;
+	height: 100%;
+	padding: 0 1em;
+	border-right: 1px solid #6A6A6A;
+	background: #24292D;
+	color: #999EA4;
+	font-size: 1.5em;
+	padding-bottom: 2em;
+	padding-top: 2.2em;
+	box-sizing: border-box;
+	overflow: hidden;
+	overflow-y: auto;
+	text-shadow: #000 0 0.1em 0;
+	box-shadow: rgba(255,255,255,0.3) 0.02em 0 0px;
+	z-index: 500;
+}
+
+#menu li {
+	padding: 0;
+	line-height: 2em;
+}
+
+a.nav, a.nav-active {
+	margin: 0;
+	padding: 0;
+	text-decoration: none;
+	color: #9C9C9C;
+}
+
+a.nav:hover, a.nav-active {
+	padding: 0;
+	color: #3598DC;
+}
+
+a.nav:hover {
+	background: none;
+}
+
+div:target {
+	display: block;
+}
+
+.text-center {
+	text-align: center;
+}
+
+#menu ul {
+	margin: 0px 0px 0px -0.2em;
+	padding: 0px;
+	list-style: none;
+}
+
+#menu li {
+	width: 100%;
+}
+
+#menu li:before {
+	content: "";
+	padding-right: 0;
+}
+
+#content {
+	padding: 0 1em 1em 1em;
+	margin-bottom: 3em;
+	transition: 0.1s opacity linear;
+	opacity: 0.1;
+}
+
+.content-toggle {
+	opacity: 1.0 !important;
+	transition: 0.2s opacity linear !important;
+	transition-delay: 0.3s !important;
+}
+
+.body-toggle {
+	overflow: hidden;
+}
+
+blockquote {
+	border-left: 0.2em #3598DC solid;
+	padding-left: 1em;
+	padding-bottom: 0.5em;
+	margin: 0.5em 0;
+}
+
+blockquote.red {
+	border-color: #F08A81;
+}
+
+blockquote.red h1, blockquote.red h2, blockquote.red h3 {
+	color: #F08A81;
+}
+
+blockquote.red strong {
+	color: #CC4A3E;
+}
+
+body li {
+	list-style-type: none;
+}
+
+body li:before {
+	color: #3598DC;
+	content: "▪";
+	padding-right: 0.6em;
+}
+
+body ul {
+	padding: 0;
+}
+
+strong {
+	color: #317DAF;
+	font-weight: 500;
+}
+
+pre, .block {
+	background: #FFF;
+	box-shadow: rgba(0,0,0,0.2) 0 0 3px;
+	padding: 0.5em;
+	font-family: Consolas, "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", Monaco, "Courier New", monospace;
+	white-space: pre-wrap;
+}
+
+a.button, a.button:visited {
+	padding: 0.5em 0.8em;
+	background-color: #317DAF;
+	border: 0.35em solid #317DAF;
+	line-height: 5em;
+	text-decoration: none;
+	text-transform: uppercase;
+	color: #FFF;
+	font-weight: 600;
+	margin: 0.5em 0;
+}
+
+a.button:hover {
+	color: #317DAF;
+	background-color: transparent;
+}
+
+footer {
+	width: 100%;
+	text-align: center;
+	font-size: 0.7em;
+	height: 3em;
+	color: rgba(0,0,0,.4);
+	line-height: 1.3em;
+	padding: 0;
+	margin: 0;
+	padding-bottom: 0.1em;
+	text-shadow: #FFF 0 0.08em 0;
+}
+
+#lang {
+	left: -1em;
+	bottom: 0;
+	padding: 0.5em;
+	color: #FFF;
+	font-weight: 400;
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	background-color: #24292D !important;
+}
+
+#lang span {
+	color: #FFF;
+	margin: 0 0.6em;
+	text-decoration: none;
+	cursor: pointer;
+	opacity: 0.5;
+	background-color: transparent !important;
+}
+
+#lang .active {
+	opacity: 1;
+	color: #3598DC;
+}
+
+.status-red, .statud-green, .status-grey {
+	padding: 0.1em;
+	font-weight: bold;
+	width: 6em;
+	display: inline-block;
+	text-align: center;
+}
+
+.status-red {
+	background: #E06666;
+	color: #B20000;
+}
+
+.statud-green {
+	background: #93C47D;
+	color: #38764F;
+}
+
+.status-grey {
+	background: #B7B7B7;
+	color: #434343;
+}
+</style>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>
+			Help
+		</title>
+	</head>
+	<body id="body">
+		<div id="menu-icon" class="menu-icon menu-toggle" onClick="toggleMenu()">
+			<div class="bar1"></div>
+			<div class="bar2"></div>
+			<div class="bar3"></div>
+		</div>
+		<div id="menu" class="menu-toggle" onClick="toggleMenu()">
+			<ul>
+				<li> <a href="#home" class="nav-active" > {{name}} </a> </li>
+				<li> <a href="#install" class="nav" > Install </a> </li>
+				<li> <a href="#uninstall" class="nav" > Uninstall </a> </li>
+				<li> <a href="#howtouse" class="nav" > How to Use </a> </li>
+				<li> <a href="#settings" class="nav" > Settings </a> </li>
+				<li> <a href="#about" class="nav" > About </a> </li>
+			</ul>
+			<div id="lang"><span onClick="setLang('ru', this)" lang="ru"> RU </span><span href="" onClick="setLang('en', this)" lang="en"> EN </span></div>
+		</div>
+		<div id="content" class="content-toggle"> 
+			<!--------------------------------------------------------------------------------------------------> 
+			<!-- HOME --> 
+			<!-- EN -->
+			<div class="item" id="home" lang="en" title="{{name}}"> This script is used for quick placement of windows in 3Ds Max scene. <br>
+				Before using the script requires preset the windows. <br>
+				Read more in the Settings section. <br>
+				<img src="img/windowplacer.png" alt=""/>
+				<h1> Features: </h1>
+				<ul>
+					<li> Windows list </li>
+					<li> Placement the windows with snap </li>
+					<li> Automatic placement</li>
+					<li> Flip by local axis (X, Y, Z) </li>
+					<li> Tool for windows settings</li>
+				</ul>
+				<a href="{{download}}" class="button"> Download </a>
+				<pre>This script has a commercial license.<br>Purchase the license to use {{name}}.<br><a class="button" href="{{purchase}}" target="_blank"> Pruchase key </a> </pre>
+			</div>
+			
+			<!-- RU -->
+			
+			<div class="item" id="home" lang="ru" title="{{name}}"> Данный скрипт служит для быстрой расстановки окон в сцене 3Ds Max. <br>
+				Перед использованием скрипта необходима предварительная настройка окон. <br>
+				Подробнее читайте в разделе Settings. <br>
+				<img src="img/windowplacer.png" alt=""/>
+				<h1> Возможности: </h1>
+				<ul>
+					<li> Список окон </li>
+					<li> Расстановка окон по привязке </li>
+					<li> Автоматическая расстановка </li>
+					<li> Flip окон по локальным осям (X, Y, Z) </li>
+					<li> Инструмент настройки окон для работы скрипта </li>
+				</ul>
+				<a href="{{download}}" class="button"> Скачать </a>
+				<pre>Данный скрипт имеет коммерческую лицензию.<br>Приобретите лицензию для использования {{name}}.<br><a class="button" href="{{purchase}}" target="_blank"> Купить ключ </a> </pre>
+			</div>
+			<!--------------------------------------------------------------------------------------------------> 
+			<!-- INSTALL --> 
+			<!-- RU -->
+			<div class="item" id="install" lang="ru" title="Установка"> В версии <strong>{{fullname}}</strong> используется универсальный установщик,<br>
+				который позволяет автоматически копировать необходимые файлы,<br>
+				а также добавлять кнопки на панель инструментов (ToolBar) и в контекстное меню (QuadMenu).
+				<h1>Шаг 1</h1>
+				Запустите установщик, перетянув <strong>PruneScene.mzp</strong> в окно 3D Studio Max.<br>
+				Или выполните его <strong>Scripting
+				&rarr; 
+				Run Script</strong>.<br>
+				<img src="img/install1.png" alt=""/>
+				<h1>Шаг 2</h1>
+				После запуска установщика, вы увидите следующее окно.<br>
+				<img src="img/install2.png" alt=""/>
+				<br>
+				Следуйте инструкциям:
+				<ul>
+					<li> Ознакомьтесь с текстом лицензии </li>
+					<li> Согласитесь с лицензией <strong>I accept the term in the license agreement</strong> </li>
+					<li> Нажмите <strong>Next</strong> </li>
+				</ul>
+				<h1>Шаг 3</h1>
+				<img src="img/install3.png" alt=""/>
+				<br>
+				<strong>Register interface menus:</strong>
+				<ul>
+					<li> <strong>Tool Bar (Recommended)</strong> - установки кнопки на панель инструментов <em>(Рекомендуется)</em> </li>
+					<li> <strong>Quad Menu</strong> - установка пункта в контекстном меню </li>
+				</ul>
+				<strong>Setup options:</strong>
+				<ul>
+					<li> <strong>Install</strong> - для установки скрипта </li>
+					<li> <strong>Remove</strong> - для удаления скрипта </li>
+				</ul>
+				Нажмите <strong>Next</strong><br>
+				<h1>Шаг 4</h1>
+				<img src="img/install4.png" alt=""/>
+				<br>
+				Во время процесса установки вам будет необходимо подтвердить копирование файлов от имени Администратора, нажав кнопку <strong>Yes</strong>!<br>
+				<blockquote class="red">
+					<h1>Важно!</h1>
+					Обязательно подтвердите действие нажатием <strong>Yes</strong>, иначе процесс установки завершится некорректно!
+				</blockquote>
+				<img src="img/install5.png" alt=""/>
+				<br>
+				После успешного окончания установки вы увидите сообщение.<br>
+				<img src="img/install6.png" alt=""/>
+				<br>
+				Дополнительные опции:
+				<ul>
+					<li> <strong>Run Script</strong> - запустить скрипт </li>
+					<li> <strong>About</strong> - информация об установщике </li>
+					<li> <strong>Help</strong> - открыть данную справку </li>
+				</ul>
+				Нажмите <strong>Finish</strong>, готово! Скрипт установлен.<br>
+				<blockquote>
+					<h1>Обратите внимание!</h1>
+					В зависимости от опций, которые были выбраны при установке, в интерфейсе 3D Studio Max появятся кнопки!
+				</blockquote>
+				<img src="img/install7.png" alt=""/>
+				<br>
+				Кнопка в ToolBar.<br>
+				<img src="img/install8.png" alt=""/>
+				<br>
+				Кнопка в QuadMenu. </div>
+			
+			<!-- EN -->
+			
+			<div class="item" id="install" lang="en" title="Install"> In the version of <strong>{{fullname}}</strong> used Universal Installer,<br>
+				which allows you to automatically copy necessary files,<br>
+				and add the buttons to the
+				Tool Bar and QuadMenu.
+				<h1>Step 1</h1>
+				Run the installer, just Drag
+				&
+				Drop <strong>PruneScene.mzp</strong> in to 3D Studio Max window.<br>
+				Or execute from <strong>Scripting
+				&rarr; 
+				Run Script</strong>.<br>
+				<img src="img/install1.png" alt=""/>
+				<h1>Step 2</h1>
+				After run the installer you can see the next window.<br>
+				<img src="img/install2.png" alt=""/>
+				<br>
+				Follow the instructions:
+				<ul>
+					<li> Read the license text </li>
+					<li> Agree with license <strong>I accept the term in the license agreement</strong> </li>
+					<li> Press the <strong>Next</strong> </li>
+				</ul>
+				<h1>Step 3</h1>
+				<img src="img/install3.png" alt=""/>
+				<br>
+				<strong>Register interface menus:</strong>
+				<ul>
+					<li> <strong>Tool Bar (Recommended)</strong> - install Tool Bar buttons <em>(Recommended)</em> </li>
+					<li> <strong>Quad Menu</strong> - install as item in QuadMenu </li>
+				</ul>
+				<strong>Setup options:</strong>
+				<ul>
+					<li> <strong>Install</strong> - for install script </li>
+					<li> <strong>Remove</strong> - for remove script </li>
+				</ul>
+				Press the <strong>Next</strong><br>
+				<h1>Step 4</h1>
+				<img src="img/install4.png" alt=""/>
+				<br>
+				During the installation process you will be required to confirm the copying of files with the Administrator rights, by clicking <strong>Yes</strong>!<br>
+				<blockquote class="red">
+					<h1>Important!</h1>
+					Be sure to confirm the action by pressing <strong>Yes</strong>, otherwise the installation will be failed!
+				</blockquote>
+				<img src="img/install5.png" alt=""/>
+				<br>
+				After a successful installation is finished, you will see a message.<br>
+				<img src="img/install6.png" alt=""/>
+				<br>
+				Additional options:
+				<ul>
+					<li> <strong>Run Script</strong> - run the script </li>
+					<li> <strong>About</strong> - information about Installer </li>
+					<li> <strong>Help</strong> - open this help </li>
+				</ul>
+				Press the <strong>Finish</strong>, done! Script installed.<br>
+				<blockquote>
+					<h1>Note</h1>
+					Depending on the options that were selected during installation in the 3D Studio Max interface buttons will appear!
+				</blockquote>
+				<img src="img/install7.png" alt=""/>
+				<br>
+				Button in the ToolBar.<br>
+				<img src="img/install8.png" alt=""/>
+				<br>
+				Button in the QuadMenu. </div>
+			<!--------------------------------------------------------------------------------------------------> 
+			<!-- UNINSTALL --> 
+			<!-- EN -->
+			<div class="item" id="uninstall" lang="en"  title="Uninstall"> For remove the <strong>{{fullname}}</strong> you must do the following: <br>
+				<h1>Step 1</h1>
+				Run the installer, just Drag
+				&
+				Drop <strong>PruneScene.mzp</strong> in to 3D Studio Max window.
+				Or execute from <strong>Scripting
+				&rarr; 
+				Run Script</strong>.<br>
+				<img src="img/install1.png" alt=""/>
+				<br>
+				<h1>Step 2</h1>
+				Agree with license <strong>I accept the term in the license agreement</strong>.<br>
+				Press the <strong>Next</strong>.
+				<h1>Step 3</h1>
+				In <strong>Setup Options</strong> set the <strong>Remove</strong> value.<br>
+				<img src="img/unistall1.png" alt=""/>
+				<br>
+				Press the <strong>Next</strong>.
+				<h1>Step 4</h1>
+				<img src="img/install5.png" alt=""/>
+				<br>
+				During the removal process you will be required to confirm the removing the files with Administrator rights, by clicking <strong>Yes</strong>!
+				<blockquote class="red">
+					<h1>Important!</h1>
+					Be sure to confirm the action by pressing <strong>Yes</strong>, otherwise the uninstall will be failed!
+				</blockquote>
+				After successful completion of the removal, you will see a message.<br>
+				<img src="img/unistall2.png" alt=""/>
+				<br>
+				The script is completely removed from your computer as well as deleted {{name}} buttons of ToolBar and QuadMenu!</div>
+			<!-- RU -->
+			<div class="item" id="uninstall" lang="ru"  title="Удаление"> Для удаления <strong>{{fullname}}</strong> вам необходимо выполнить следующие действия: <br>
+				<h1>Шаг 1</h1>
+				Запустите установщик, перетянув <strong>PruneScene.mzp</strong> в окно 3D Studio Max.<br>
+				Или выполните его <strong>Scripting
+				&rarr; 
+				Run Script</strong>.<br>
+				<img src="img/install1.png" alt=""/>
+				<br>
+				<h1>Шаг 2</h1>
+				Согласитесь с лицензией <strong>I accept the term in the license agreement</strong>.<br>
+				Нажмите <strong>Next</strong>.
+				<h1>Шаг 3</h1>
+				В <strong>Setup Options</strong> установите переключатель на значение <strong>Remove</strong>.<br>
+				<img src="img/unistall1.png" alt=""/>
+				<br>
+				Нажмите <strong>Next</strong>.
+				<h1>Шаг 4</h1>
+				<img src="img/install5.png" alt=""/>
+				<br>
+				Во время процесса удаления вам будет необходимо подтвердить действие удаления файлов от имени Администратора, нажав кнопку <strong>Yes</strong>!
+				<blockquote class="red">
+					<h1>Важно!</h1>
+					Обязательно подтвердите действие нажатием <strong>Yes</strong>, иначе процесс удаления завершится некорректно!
+				</blockquote>
+				После успешного окончания удаления вы увидите сообщение.<br>
+				<img src="img/unistall2.png" alt=""/>
+				<br>
+				Скрипт полностью удален с вашего компьютера, также удалены кнопки {{name}} из ToolBar и QuadMenu! </div>
+			
+			<!--------------------------------------------------------------------------------------------------> 
+			<!-- HOW TO USE --> 
+			<!-- RU -->
+			<div class="item" id="howtouse" lang="ru"  title="Как пользоваться">
+				<h1> Шаг 1 </h1>
+				Запустите Window Placer, нажав соответствующую кнопку в ToolBar или QuadMenu.
+				<h1> Шаг 2 </h1>
+				Загрузите в сцену свою библиотеку окон при помощи<strong> File
+				&rarr; 
+				Merge</strong>. <br>
+				Если у вас еще нет настроенной библиотеки окон, вам необходимо настроить каждое окно вручную.<br>
+				<br>
+				<blockquote><h3>Важно:</h3>Настройку и расстановку окон обязательно нужно производить в одинаковых системных еденицах измерения!</blockquote>
+				<h3>Настройка окна:</h3>
+				<ul>
+					<li>Откройте свиток <strong>Window Setup</strong> </li>
+					<li>Выполните поочередно все пункты </li>
+					<li>Более подробно смотрите раздел <strong>Settings</strong> </li>
+				</ul>
+				<h1> Шаг 3 </h1>
+				После настройки библиотеки окон их названия появятся списке: <br>
+				<img src="img/windowplacer.png">
+				<h1> Шаг 4 </h1>
+				Выберите нужное окно из списка, после чего нажмите <strong>Place</strong> или <strong>Create From Borders</strong>.
+				<h3>Режим Place:</h3>
+				В данном режиме окна расставляются вручную по одному.<br>
+				Нажмите кнопку <strong>Place</strong>, у вас автоматически включится инструмент Tape <em>(Линейка)</em>.<br>
+				Постройте линейку начиная от верхнего левого угла до нижнего правого, после чего на месте линейки будет создано окно.<br>
+				<img src="img/howtouse1.gif">
+				<h3>Режим Create From Border:</h3>
+				В данном режиме окна расставляются автоматически.<br>
+				В <strong>Editable Poly</strong> выберите открытые грани в вашей стене, нажмите кнопку <strong>Create From Border</strong>, после чего в оконных проемах будут вставлены окна.<br>
+				<img src="img/howtouse2.gif">
+				<blockquote class="red">
+					<h3>Примечание:</h3>
+					<strong>Каждый Open Border должен состоять только из четырех точек.</strong><br>
+					К примеру если сделать Cap Polygons, каждый полигон должен быть четырехугольным!
+				</blockquote>
+				<h1> Шаг 5 </h1>
+				Не забудьте сохранить настроенные окна в другой файл.<br>
+				Настроенные окна можно будет использовать снова и снова в новых сценах. </div>
+			<!-- EN -->
+			<div class="item" id="howtouse" lang="en"  title="How to use">
+				<h1> Step 1 </h1>
+				Launch Window Placer, by pressing the button on the ToolBar or QuadMenu.
+				<h1> Step 2 </h1>
+				Import in the scene your own windows library, using<strong> File
+				&rarr; 
+				Merge</strong>. <br>
+				If you have not configured the windows library, you need to manually configure each window.<br>
+				<br>
+				<blockquote><h3>Note:</h3>Setup windows and placing must be the in same system units!</blockquote>
+				<h3>Configure window:</h3>
+				<ul>
+					<li>Open the rollout <strong>Window Setup</strong> </li>
+					<li>Follow all the items one by one </li>
+					<li>For more details see the <strong>Settings</strong> section </li>
+				</ul>
+				<h1> Step 3 </h1>
+				After setting up the library windows of their name appears in the list: <br>
+				<img src="img/windowplacer.png">
+				<h1> Step 4 </h1>
+				Select the window you want from the list, and then click the <strong>Place</strong> or <strong>Create From Borders</strong>.
+				<h3>Place Mode:</h3>
+				In this mode, the windows are placed one by one manually.<br>
+				Press the button <strong>Place</strong>, you will automatically turn on Tape tool.<br>
+				Build a tape from top left to bottom right corner, and then will be created window.<br>
+				<img src="img/howtouse1.gif">
+				<h3>Create From Border Mode:</h3>
+				In this mode, the windows are placed automatically.<br>
+				In <strong>Editable Poly</strong> select Open Borders, then press the button <strong>Create From Border</strong>, after that in the window openings are inserted window.<br>
+				<img src="img/howtouse2.gif">
+				<blockquote class="red">
+					<h3>Note:</h3>
+					<strong>Each Open Border should consist of only four points.</strong><br>
+					For example, if you make Cap Polygons, each polygon must be quadrangular!
+				</blockquote>
+				<h1> Step 5 </h1>
+				Do not forget to save your customized window into another file.<br>
+				Customized window can be used again and again in new scenes. </div>
+			<!--------------------------------------------------------------------------------------------------> 
+			<!-- SETTINGS --> 
+			<!-- RU -->
+			<div class="item" id="settings" lang="ru" title="Настройки"> Очень ответственной частью является правильная настройка окон. <br>
+				Обязательно у всех окон должен быть правильный Pivot, и правильное положение без трансформаций <em>(Reset XForm)</em>,<br>
+				так чтобы фасадная часть окна была перпендикулярно в виде Front.<br>
+				<img src="img/setting1.png" alt=""/>
+				<br>
+				Откройте свиток <strong>Window Setup</strong> и поочередно выполните все шаги:
+				<h1>Шаг 1: Set Pivot</h1>
+				<img src="img/setup1.gif" alt=""/>
+				<br>
+				Нажмите кнопку <strong>Set Pivot</strong>. <br>
+				Постройте линейку по диагонали от левого верхнего угла до правого нижнего с привязкой по Vertex.<br>
+				В центре линейки и будет ваш Pivot.<br>
+				<blockquote>
+					<h3>Примечание:</h3>
+					Возможно вам нужно будет дополнительно отредактировать Pivot вручную!
+				</blockquote>
+				<h1>Шаг 2: Set Size</h1>
+				Нажмите кнопку <strong>Set Size</strong>. Постройте линейку по диагонали от левого верхнего угла до правого нижнего.<br>
+				Тем самым вы установите ширину и высоту окна. <br>
+				<img src="img/setup1.gif" alt=""/>
+				<br>
+				Для других объектов, таких как оконные рамки установите размеры как показано на рисунке ниже.<br>
+				<img src="img/setup1_1.gif" alt=""/>
+				<br>
+				<h1>Шаг 3: Vertex Sets</h1>
+				<img src="img/setup2.gif" alt=""/>
+				<br>
+				Перейдите в режим редактирования Poly.<br>
+				Выделите левые точки окна, нажмите <strong>Add Left Vertex</strong>. <br>
+				Выделите правые нажмите <strong>Add Right Vertext</strong>.<br>
+				Аналогично проделайте операции и для верхних и нижних точек.<br>
+				Эти точки впоследствии будут смещаться влево, вправо, вверх или низ.
+				<blockquote class="red">
+					<h3>Важно!</h3>
+					Если вы меняете геометрию окна, все настройки нужно сделать заново!
+				</blockquote>
+				<h1>Шаг 4: Floating Elements <em>(Optional)</em></h1>
+				<blockquote>
+					<h3>Примечание:</h3>
+					Данный шаг является опциональным!
+				</blockquote>
+				Если нужно, чтобы какой то элемент окна смещался влево или вправо пропорционально изменению ширины окна,<br>
+				добавьте эти точки <strong>Add Left Vertex</strong>, что бы смещались влево и <strong>Add Right Vertex</strong>, что бы смещались вправо.<br>
+				<img src="img/setup3.gif" alt=""/>
+			</div>
+			<!-- EN -->
+			<div class="item" id="settings" lang="en" title="Settings"> It is a responsible part correct configure windows.<br>
+				Be sure to have all the windows should be the correct Pivot, and the correct position without transformation <em>(Reset XForm)</em>,<br>
+				so that would be of the facade of the window it was perpendicular as Front view.<br>
+				<img src="img/setting1.png" alt=""/>
+				<br>
+				Open rollout <strong>Window Setup</strong> and follow the steps:
+				<h1>Step 1: Set Pivot</h1>
+				<img src="img/setup1.gif" alt=""/>
+				<br>
+				Press the button <strong>Set Pivot</strong>. <br>
+				Build a tape diagonally from the upper left corner to the right lower snap by Vertex.<br>
+				<blockquote>
+					<h3>Note:</h3>
+					Perhaps you will want to further edit the Pivot manually!
+				</blockquote>
+				<h1>Step 2: Set Size</h1>
+				Press the button <strong>Set Size</strong>. Build a tape diagonally from the upper left corner to the lower right corner.<br>
+				Thus, you set the width and height of the window.<br>
+				<img src="img/setup1.gif" alt=""/>
+				<br>
+				For other objects, such as window frames, set the dimensions as shown in the figure below.<br>
+				<img src="img/setup1_1.gif" alt=""/>
+				<br>
+				<h1>Step 3: Vertex Sets</h1>
+				<img src="img/setup2.gif" alt=""/>
+				<br>
+				Go to Edit Poly mode.<br>
+				Select the left points of the window, click <strong>Add Left Vertex</strong>. <br>
+				Select the right points, click<strong>Add Right Vertext</strong>.<br>
+				Similarly, do the operation and for the upper and bottom points.<br>
+				These points will later be shifted to the left, right, up or down.
+				<blockquote class="red">
+					<h3>Warning!</h3>
+					If you change the geometry of the window, all the settings you need to re-do!
+				</blockquote>
+				<h1>Step 4: Floating Elements <em>(Optional)</em></h1>
+				<blockquote>
+					<h3>Note:</h3>
+					This step is optional!
+				</blockquote>
+				If you want a window element that has shifted to the left or right in proportion to the width of the window,<br>
+				add this points <strong>Add Left Vertex</strong>, that would be shifted to the left and <strong>Add Right Vertex</strong>, that would be shifted to the right.<br>
+				<img src="img/setup3.gif" alt=""/>
+			</div>
+			
+			<!--------------------------------------------------------------------------------------------------> 
+			<!-- ABOUT -->
+			<div class="item" id="about" title="About"> 
+				<div class="text-center">
+				<h3>{{name}}</h3> 
+				Author: 
+				{{author}} <br>
+				Version: 
+				{{ver}} <br>
+				<br>
+				&copy; 
+				{{year}}
+				All rights reserved. <br>
+				Universal Help by 
+				{{author}}
+				v. {{helpver}} <br>
+				</div>
+			</div>
+		</div>
+		<footer>
+			&copy; 
+			{{year}}
+			Universal Help by 
+			{{author}}
+			v. 
+			{{helpver}} <br>
+			{{fullname}}
+		</footer>
+	</body>
+</html>
