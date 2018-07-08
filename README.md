@@ -1,8 +1,8 @@
 # Window Placer
 
-Official page: http://3dground.net/prod/2246311
+Official page: http://3dground.net/prod/window-placer-2246311
 
-Help: https://3dground.github.io/Window-Placer/help/#home_en
+Help: http://3dground.net/manual/window-placer
 
 # Description
 
